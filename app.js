@@ -20,7 +20,8 @@ app.use(methodOverride('_method'));
 
 
 //MONGO URI
-const mongoURI = 'mongodb://Shayon:Shayon1234@ds123664.mlab.com:23664/mongouploads';
+// const mongoURI = 'mongodb://127.0.0.1:27017/mongo_uploads';
+const mongoURI = "mongodb://shayon:Shayon1234@ds123664.mlab.com:23664/mongouploads";
 //MONGO CONNECTION
 const conn = mongoose.createConnection(mongoURI);
 //INIT GFS
