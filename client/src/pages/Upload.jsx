@@ -28,10 +28,10 @@ function Upload() {
     }
 
 
-    const handleSubmit = (e) =>{
+    const handleSubmit = (e) => {
         console.log("form submited");
         e.preventDefault();
-        if(!previewSource) return ;
+        if (!previewSource) return;
         // const reader = new FileReader();
         // reader.readAsDataURL(selectedFile);
 
@@ -39,15 +39,15 @@ function Upload() {
         uploadImage(previewSource);
     }
 
-    const uploadImage = async (base64EncodedImage) =>{
+    const uploadImage = async (base64EncodedImage) => {
         console.log("Base 54 image: ", base64EncodedImage);
-        try{
-            await fetch('/api/upload', {
-                method: "POST",
-                body: JSON.stringify({data: base64EncodedImage}),
-                headers: {'Content-type': "application/json"}
-            })
-        }catch(err){
+        try {
+            await fetch('http://localhost:3001/api/upload', {
+                method: 'POST',
+                body: JSON.stringify({ data: base64EncodedImage }),
+                headers: { 'Content-Type': 'application/json' },
+            });
+        } catch (err) {
             console.log(err);
         }
     }
