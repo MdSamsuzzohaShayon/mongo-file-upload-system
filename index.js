@@ -2,8 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const cloudinary = require('cloudinary');
-// const {cloudinary} = require('./utils/cloudinary');
+// const cloudinary = require('cloudinary');
+const {cloudinary} = require('./utils/cloudinary');
 
 
 
@@ -12,11 +12,11 @@ app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 // https://cloudinary.com/documentation/node_integration#configuration
-cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.API_KEY,
-    api_secret: process.env.API_SECRET
-});
+// cloudinary.config({
+//     cloud_name: process.env.CLOUD_NAME,
+//     api_key: process.env.API_KEY,
+//     api_secret: process.env.API_SECRET
+// });
 
 
 
@@ -35,9 +35,9 @@ app.get('/api/upload', async (req, res, next) => {
 });
 
 
-app.post('/api/upload', async (req, res, next) => {
+// app.post('/api/upload', async (req, res, next) => {
 
-});
+// });
 
 
 
@@ -50,7 +50,7 @@ app.get('/api/delete', async (req, res, next) => {
     // https://cloudinary.com/documentation/admin_api#delete_resources
     // https://cloudinary.com/documentation/admin_api#examples-9
     // cloudinary.v2.api.delete_resources(public_ids, options, callback);
-    cloudinary.v2.api.delete_resources(['xqgdrpqjrfzdbjo99em9'])
+    cloudinary.api.delete_resources(['gdgcsep6dszg2cgce5tb'])
         .then(response => {
             return res.json(response);
         })
