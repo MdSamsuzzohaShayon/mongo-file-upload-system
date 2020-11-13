@@ -19,6 +19,9 @@ cloudinary.config({
 });
 
 
+
+
+// NOW WE CAN SHOW THIS IMAGE IN CLOUDINARY MEDIA LIBRARY
 app.get('/api/upload', async (req, res, next) => {
     // https://cloudinary.com/documentation/node_integration#installation_and_setup
     cloudinary.uploader.upload('messi.jpg')
@@ -35,6 +38,29 @@ app.get('/api/upload', async (req, res, next) => {
 app.post('/api/upload', async (req, res, next) => {
 
 });
+
+
+
+
+
+
+// NOW WE CAN SEE THERE IS NO IMAGE IN CLOUDINARY MEDIA LIBRARY
+// https://cloudinary.com/documentation/admin_api
+app.get('/api/delete', async (req, res, next) => {
+    // https://cloudinary.com/documentation/admin_api#delete_resources
+    // https://cloudinary.com/documentation/admin_api#examples-9
+    // cloudinary.v2.api.delete_resources(public_ids, options, callback);
+    cloudinary.v2.api.delete_resources(['xqgdrpqjrfzdbjo99em9'])
+        .then(response => {
+            return res.json(response);
+        })
+        .catch(error => {
+            return res.json(error);
+        });
+});
+
+
+
 
 
 
