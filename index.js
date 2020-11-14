@@ -73,9 +73,10 @@ app.get('/api/raw/delete', async (req, res, next) => {
 app.get('/api/upload', (req, res, next) => {
     res.render('index');
 });
-app.post('/api/upload', upload.single('img'), (req, res, next) => {
+app.post('/api/upload', upload.single('img'), async (req, res, next) => {
     console.log(req.file);
-    res.status(200).json({ file: req.file });
+    const result = await cloudinary.uploader.upload(req.file.path)
+    res.status(200).json({ file: result });
 });
 
 
