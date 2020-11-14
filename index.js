@@ -3,7 +3,8 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 // const cloudinary = require('cloudinary');
-const {cloudinary} = require('./utils/cloudinary');
+const { cloudinary } = require('./utils/cloudinary');
+const upload = require('./utils/multer');
 
 
 
@@ -22,7 +23,7 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 
 // NOW WE CAN SHOW THIS IMAGE IN CLOUDINARY MEDIA LIBRARY
-app.get('/api/upload', async (req, res, next) => {
+app.get('/api/raw/upload', async (req, res, next) => {
     // https://cloudinary.com/documentation/node_integration#installation_and_setup
     cloudinary.uploader.upload('messi.jpg')
         .then(result => {
@@ -46,7 +47,7 @@ app.get('/api/upload', async (req, res, next) => {
 
 // NOW WE CAN SEE THERE IS NO IMAGE IN CLOUDINARY MEDIA LIBRARY
 // https://cloudinary.com/documentation/admin_api
-app.get('/api/delete', async (req, res, next) => {
+app.get('/api/raw/delete', async (req, res, next) => {
     // https://cloudinary.com/documentation/admin_api#delete_resources
     // https://cloudinary.com/documentation/admin_api#examples-9
     // cloudinary.v2.api.delete_resources(public_ids, options, callback);
@@ -57,6 +58,24 @@ app.get('/api/delete', async (req, res, next) => {
         .catch(error => {
             return res.json(error);
         });
+});
+
+
+
+
+
+
+
+
+
+
+
+app.get('/api/upload', (req, res, next) => {
+    res.render('index');
+});
+app.post('/api/upload', upload.single('img'), (req, res, next) => {
+    console.log(req.file);
+    res.status(200).json({ file: req.file });
 });
 
 
