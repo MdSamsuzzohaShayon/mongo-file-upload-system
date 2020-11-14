@@ -70,17 +70,41 @@ app.get('/api/raw/delete', async (req, res, next) => {
 
 
 
-// UPLOAD FORM
-app.get('/api/upload', (req, res, next) => {
-    res.render('index');
+// UPLOAD FORM AND SHOWING UPLOADED ITEM
+app.get('/api/upload', async (req, res, next) => {
+    // https://cloudinary.com/documentation/node_asset_administration#example
+    const image_url = await cloudinary.api.resource('rlodgxbymqtaflcvzsyv');
+    // , (error, result)=> console.log(result.url)
+
+    res.render('index', { image_url: image_url.url });
 });
 
 
-// UPLOAD REQUEST 
+// UPLOAD TO CLOUDINARY USING MULTER 
 app.post('/api/upload', upload.single('img'), async (req, res, next) => {
-    console.log(req.file);
-    const result = await cloudinary.uploader.upload(req.file.path)
-    res.status(200).json({ file: result });
+    // https://cloudinary.com/documentation/node_image_and_video_upload#node_js_image_upload
+    console.log("Image input details: ", req.file);
+    const result = await cloudinary.uploader.upload(req.file.path);
+    console.log("Image upload details: ", result);
+    const post_details = {
+        title: req.body.title,
+        image_public_id: result.public_id
+    };
+    console.log("Post Details: ", post_details);
+    res.status(200).json({ file: post_details });
+});
+
+
+// SHOWING ALL UPLOADED ITEMS 
+app.get('/api/show', async (req, res, next) => {
+    // https://cloudinary.com/documentation/admin_api#get_resources
+    // https://cloudinary.com/documentation/admin_api#examples
+    const all_images = await cloudinary.api.resources();
+    console.log("All Images: ", all_images);
+    all_images.resources.forEach(element => {
+        console.log(element.url);
+    });
+    res.render('show', {all_images});
 });
 
 
